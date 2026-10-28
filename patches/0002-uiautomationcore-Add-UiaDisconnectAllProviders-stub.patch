@@ -1,0 +1,43 @@
+Subject: [PATCH] uiautomationcore: Add UiaDisconnectAllProviders stub.
+
+---
+--- a/dlls/uiautomationcore/uia_provider.c
++++ b/dlls/uiautomationcore/uia_provider.c
+@@ -2310,6 +2310,16 @@
+ }
+ 
+ /***********************************************************************
++ *          UiaDisconnectAllProviders (uiautomationcore.@)
++ */
++HRESULT WINAPI UiaDisconnectAllProviders(void)
++{
++    FIXME("(): stub\n");
++
++    return S_OK;
++}
++
++/***********************************************************************
+  *          UiaDisconnectProvider (uiautomationcore.@)
+  */
+ HRESULT WINAPI UiaDisconnectProvider(IRawElementProviderSimple *elprov)
+--- a/dlls/uiautomationcore/uiautomationcore.spec
++++ b/dlls/uiautomationcore/uiautomationcore.spec
+@@ -55,7 +55,7 @@
+ @ stub TransformPattern_Rotate
+ @ stdcall UiaAddEvent(ptr long ptr long ptr long ptr ptr)
+ @ stdcall UiaClientsAreListening()
+-#@ stub UiaDisconnectAllProviders
++@ stdcall UiaDisconnectAllProviders()
+ @ stdcall UiaDisconnectProvider(ptr)
+ @ stdcall UiaEventAddWindow(ptr long)
+ @ stdcall UiaEventRemoveWindow(ptr long)
+--- a/include/uiautomationcoreapi.h
++++ b/include/uiautomationcoreapi.h
+@@ -546,6 +546,7 @@
+ HRESULT WINAPI UiaNodeFromHandle(HWND hwnd, HUIANODE *huianode);
+ HRESULT WINAPI UiaGetRootNode(HUIANODE *huianode);
+ HRESULT WINAPI UiaNodeFromFocus(struct UiaCacheRequest *cache_req, SAFEARRAY **out_req, BSTR *tree_struct);
++HRESULT WINAPI UiaDisconnectAllProviders(void);
+ HRESULT WINAPI UiaDisconnectProvider(IRawElementProviderSimple *elprov);
+ HRESULT WINAPI UiaGetUpdatedCache(HUIANODE huianode, struct UiaCacheRequest *cache_req, enum NormalizeState normalize_state,
+         struct UiaCondition *normalize_cond, SAFEARRAY **out_req, BSTR *tree_struct);

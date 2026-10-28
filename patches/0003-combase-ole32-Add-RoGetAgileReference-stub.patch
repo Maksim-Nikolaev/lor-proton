@@ -1,0 +1,46 @@
+Subject: [PATCH] combase, ole32: Add a RoGetAgileReference stub that returns E_NOTIMPL.
+
+---
+--- a/dlls/combase/roapi.c
++++ b/dlls/combase/roapi.c
+@@ -234,6 +234,19 @@
+ }
+ 
+ /***********************************************************************
++ *      RoGetAgileReference (combase.@)
++ */
++HRESULT WINAPI RoGetAgileReference(int options, REFIID riid, IUnknown *obj, void **agile_reference)
++{
++    FIXME("(%d %s %p %p): stub\n", options, debugstr_guid(riid), obj, agile_reference);
++
++    if (agile_reference)
++        *agile_reference = NULL;
++
++    return E_NOTIMPL;
++}
++
++/***********************************************************************
+  *      RoGetApartmentIdentifier (combase.@)
+  */
+ HRESULT WINAPI RoGetApartmentIdentifier(UINT64 *identifier)
+--- a/dlls/combase/combase.spec
++++ b/dlls/combase/combase.spec
+@@ -292,7 +292,7 @@
+ @ stub RoFreeParameterizedTypeExtra
+ @ stub RoGetActivatableClassRegistration
+ @ stdcall RoGetActivationFactory(ptr ptr ptr)
+-@ stub RoGetAgileReference
++@ stdcall RoGetAgileReference(long ptr ptr ptr)
+ @ stdcall RoGetApartmentIdentifier(ptr)
+ @ stub RoGetErrorReportingFlags
+ @ stub RoGetMatchingRestrictedErrorInfo
+--- a/dlls/ole32/ole32.spec
++++ b/dlls/ole32/ole32.spec
+@@ -254,6 +254,7 @@
+ @ stdcall RegisterDragDrop(long ptr)
+ @ stdcall ReleaseStgMedium(ptr)
+ @ stdcall RevokeDragDrop(long)
++@ stdcall RoGetAgileReference(long ptr ptr ptr) combase.RoGetAgileReference
+ @ stdcall SNB_UserFree(ptr ptr)
+ @ stdcall SNB_UserMarshal(ptr ptr ptr)
+ @ stdcall SNB_UserSize(ptr long ptr)

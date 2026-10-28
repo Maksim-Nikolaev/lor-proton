@@ -1,0 +1,81 @@
+Subject: [PATCH] user32: Add GetPointerDevice, GetPointerPenInfo and IsWindowArranged stubs.
+
+---
+--- a/dlls/user32/misc.c
++++ b/dlls/user32/misc.c
+@@ -510,6 +510,44 @@
+     return FALSE;
+ }
+ 
++/**********************************************************************
++ * GetPointerDevice [USER32.@]
++ */
++BOOL WINAPI GetPointerDevice(HANDLE device, POINTER_DEVICE_INFO *info)
++{
++    static int once;
++
++    if (!once++) FIXME("(%p %p): stub\n", device, info);
++
++    SetLastError(ERROR_INVALID_PARAMETER);
++    return FALSE;
++}
++
++/**********************************************************************
++ * GetPointerPenInfo [USER32.@]
++ */
++BOOL WINAPI GetPointerPenInfo(UINT32 id, POINTER_PEN_INFO *info)
++{
++    static int once;
++
++    if (!once++) FIXME("(%d %p): stub\n", id, info);
++
++    SetLastError(ERROR_INVALID_PARAMETER);
++    return FALSE;
++}
++
++/**********************************************************************
++ * IsWindowArranged [USER32.@]
++ */
++BOOL WINAPI IsWindowArranged(HWND hwnd)
++{
++    static int once;
++
++    if (!once++) FIXME("(%p): stub\n", hwnd);
++
++    return FALSE;
++}
++
+ LRESULT WINAPI ImeWndProcA( HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam )
+ {
+     if (!imm_ime_wnd_proc) return DefWindowProcA(hwnd, msg, wParam, lParam);
+--- a/dlls/user32/user32.spec
++++ b/dlls/user32/user32.spec
+@@ -359,8 +359,10 @@
+ @ stdcall GetOpenClipboardWindow() NtUserGetOpenClipboardWindow
+ @ stdcall GetParent(long)
+ @ stdcall GetPhysicalCursorPos(ptr)
++@ stdcall GetPointerDevice(ptr ptr)
+ @ stdcall GetPointerDevices(ptr ptr)
+ @ stdcall GetPointerInfo(long ptr)
++@ stdcall GetPointerPenInfo(long ptr)
+ @ stdcall GetPointerType(long ptr)
+ @ stdcall GetPointerTouchInfo(long ptr)
+ @ stdcall GetPointerTouchInfoHistory(long ptr ptr)
+@@ -487,6 +489,7 @@
+ @ stdcall IsValidDpiAwarenessContext(long)
+ @ stdcall IsWinEventHookInstalled(long)
+ @ stdcall IsWindow(long)
++@ stdcall IsWindowArranged(long)
+ @ stdcall IsWindowEnabled(long)
+ # @ stub IsWindowInDestroy
+ @ stdcall IsWindowRedirectedForPrint(long)
+--- a/include/winuser.h
++++ b/include/winuser.h
+@@ -4377,6 +4377,7 @@
+ WINUSERAPI BOOL        WINAPI IsValidDpiAwarenessContext(DPI_AWARENESS_CONTEXT);
+ WINUSERAPI BOOL        WINAPI IsWinEventHookInstalled(DWORD);
+ WINUSERAPI BOOL        WINAPI IsWindow(HWND);
++WINUSERAPI BOOL        WINAPI IsWindowArranged(HWND);
+ WINUSERAPI BOOL        WINAPI IsWindowEnabled(HWND);
+ WINUSERAPI BOOL        WINAPI IsWindowUnicode(HWND);
+ WINUSERAPI BOOL        WINAPI IsWindowVisible(HWND);

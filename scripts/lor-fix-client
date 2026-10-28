@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+prefix="${LOR_PREFIX:?Set LOR_PREFIX to the Wine prefix that contains drive_c}"
+backup="${LOR_CLIENT_BACKUP:-$HOME/Games/lor-riot-client-v141}"
+wine_user="${LOR_WINE_USER:-steamuser}"
+client="$prefix/drive_c/Riot Games/Riot Client"
+metadata="$prefix/drive_c/ProgramData/Riot Games/Metadata/Riot Client"
+profile="$prefix/drive_c/users/$wine_user/AppData/Roaming/Riot Client"
+config_url='https://clientconfig.rpg.riotgames.com/api/v1/config/public?region=NA&os=windows&app=Riot%20Client&version=141.0.6.5101&patchline=KeystoneFoundationLiveWin&namespace=keystone.self_update'
+
+if grep -qszF "WINEPREFIX=$prefix" /proc/[0-9]*/environ; then
+  echo "Legends of Runeterra is still running. Stop it first." >&2
+  exit 1
+fi
+
+manifest_url=$(curl -fsS "$config_url" | sed -n 's/.*"keystone.self_update.manifest_url":"\([^"]*\)".*/\1/p')
+
+if [[ -z "$manifest_url" ]]; then
+  echo "Could not read the latest Riot Client release from Riot." >&2
+  exit 1
+fi
+
+if ! cmp -s "$backup/metadata/Riot Client.db" "$metadata/Riot Client.db"; then
+  rsync -a --delete "$backup/Riot Client/" "$client/"
+  rm -rf "$profile" "$metadata/Update"
+  cp -a "$backup/profile" "$profile"
+  cp -a "$backup/metadata/." "$metadata/"
+
+  echo "Restored the backed-up Riot Client and its Electron profile."
+fi
+
+# The launcher only compares this release ID, so v141 files under the newest ID skip the self-update that breaks on GE-Proton 9-27.
+printf '%s' "$manifest_url" > "$metadata/Riot Client.ok"
+
+echo "Riot Client marked as ${manifest_url##*/}. Start Legends of Runeterra."
