@@ -6,6 +6,27 @@ Since late October 2026 the Riot Client either loops on "Couldn't update" or sho
 
 Tested on 2026-10-28: Riot Client 142.0.1.5150 updates itself, opens normally, and LoR starts (Bottles 67 Flatpak, umu library game, AMD GPU with RADV). The other launchers below have not been tested yet.
 
+## Contents
+
+- [Install](#install)
+  - [1. Download and verify](#1-download-and-verify)
+  - [2. Extract it where your launcher looks for Proton](#2-extract-it-where-your-launcher-looks-for-proton)
+  - [3. Select it for Legends of Runeterra](#3-select-it-for-legends-of-runeterra)
+    - [Bottles 67](#bottles-67-tested)
+    - [Heroic Games Launcher](#heroic-games-launcher-untested)
+    - [Lutris](#lutris-untested)
+    - [Steam, as a non-Steam game](#steam-as-a-non-steam-game-untested)
+    - [umu-run](#umu-run-command-line)
+  - [4. What to expect on the first start](#4-what-to-expect-on-the-first-start)
+- [The problems it fixes](#the-problems-it-fixes)
+- [What the patches change](#what-the-patches-change)
+- [Build from source](#build-from-source)
+- [When Riot ships the next client](#when-riot-ships-the-next-client)
+- [Fallback without this runner](#fallback-without-this-runner)
+- [Limits](#limits)
+- [Credits](#credits)
+- [License](#license)
+
 ## Install
 
 ### 1. Download and verify
