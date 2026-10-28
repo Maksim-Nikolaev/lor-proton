@@ -8,6 +8,7 @@ Tested on 2026-10-28: Riot Client 142.0.1.5150 updates itself, opens normally, a
 
 ## Contents
 
+- [Screenshots](#screenshots)
 - [Install](#install)
   - [1. Download and verify](#1-download-and-verify)
   - [2. Extract it where your launcher looks for Proton](#2-extract-it-where-your-launcher-looks-for-proton)
@@ -26,6 +27,14 @@ Tested on 2026-10-28: Riot Client 142.0.1.5150 updates itself, opens normally, a
 - [Limits](#limits)
 - [Credits](#credits)
 - [License](#license)
+
+## Screenshots
+
+Riot Client v142 and Legends of Runeterra running on `GE-Proton9-27-LoR1` (click for full size):
+
+| Riot Client v142 | Client settings (v142.0.1.5150) | Legends of Runeterra |
+|---|---|---|
+| <a href="docs/screenshots/1-riot-client-v142.png"><img src="docs/screenshots/1-riot-client-v142.png" width="280" alt="Riot Client v142 main window"></a> | <a href="docs/screenshots/2-riot-client-v142-settings.png"><img src="docs/screenshots/2-riot-client-v142-settings.png" width="280" alt="Riot Client settings showing version 142.0.1.5150"></a> | <a href="docs/screenshots/3-legends-of-runeterra-running.png"><img src="docs/screenshots/3-legends-of-runeterra-running.png" width="280" alt="Legends of Runeterra main menu"></a> |
 
 ## Install
 
