@@ -1,219 +1,104 @@
-# Legends of Runeterra works on Linux again (Riot Client v142)
+# Legends of Runeterra (LoR) on Linux: fixed Proton for the new Riot Client
 
-Since late October 2026 the Riot Client either loops on "Couldn't update" or shows no window on GE-Proton 9-27, and LoR itself crashes on newer Proton. I patched GE-Proton 9-27 (five rebuilt Wine DLLs, nothing else changed): the client updates itself again and the new v142 client runs. Tested in Bottles; Heroic, Lutris, Steam and umu instructions are below. Unofficial, not affiliated with Riot Games, GloriousEggroll or Valve. Feedback from other setups is welcome in the issues.
+**Legends of Runeterra works on Linux again.** Since Riot Client v142 (October 2026), LoR on Proton and Wine either loops on *"Couldn't update – Something went wrong with the update, even after repairing"* or the Riot Client opens no window at all, and LoR itself crashes on newer Proton. **GE-Proton9-27-LoR1** is GE-Proton 9-27 with five patched Wine DLLs that fix both. LoR and the Riot Client run again in Bottles, Heroic Games Launcher, Lutris and Steam.
 
-**Download:** [latest release](../../releases/latest) – `GE-Proton9-27-LoR1.tar.gz` and `GE-Proton9-27-LoR1.sha512sum`.
+**[Download the latest release](../../releases/latest)** – unofficial, not affiliated with Riot Games, GloriousEggroll or Valve.
 
-Tested on 2026-10-28: Riot Client 142.0.1.5150 updates itself, opens normally, and LoR starts (Bottles 67 Flatpak, umu library game, AMD GPU with RADV). The other launchers below have not been tested yet.
+| Launcher | Status |
+|---|---|
+| Bottles 67 (Flatpak) | tested |
+| Heroic Games Launcher (Flatpak) | tested by users |
+| Lutris, Steam, umu-run | untested, reports welcome |
 
 ## Contents
 
 - [Screenshots](#screenshots)
 - [Install](#install)
-  - [1. Download and verify](#1-download-and-verify)
-  - [2. Extract it where your launcher looks for Proton](#2-extract-it-where-your-launcher-looks-for-proton)
-  - [3. Select it for Legends of Runeterra](#3-select-it-for-legends-of-runeterra)
-    - [Bottles 67](#bottles-67-tested)
-    - [Heroic Games Launcher](#heroic-games-launcher-untested)
-    - [Lutris](#lutris-untested)
-    - [Steam, as a non-Steam game](#steam-as-a-non-steam-game-untested)
-    - [umu-run](#umu-run-command-line)
-  - [4. What to expect on the first start](#4-what-to-expect-on-the-first-start)
-- [The problems it fixes](#the-problems-it-fixes)
-- [What the patches change](#what-the-patches-change)
+- [Launcher steps](#launcher-steps)
+- [Troubleshooting](#troubleshooting)
+- [How it works](#how-it-works)
 - [Build from source](#build-from-source)
-- [When Riot ships the next client](#when-riot-ships-the-next-client)
-- [Fallback without this runner](#fallback-without-this-runner)
-- [Limits](#limits)
-- [Credits](#credits)
-- [License](#license)
+- [Credits and license](#credits-and-license)
 
 ## Screenshots
 
-Riot Client v142 and Legends of Runeterra running on `GE-Proton9-27-LoR1` (click for full size):
-
 | Riot Client v142 | Client settings (v142.0.1.5150) | Legends of Runeterra |
 |---|---|---|
-| <a href="docs/screenshots/1-riot-client-v142.png"><img src="docs/screenshots/1-riot-client-v142.png" width="280" alt="Riot Client v142 main window"></a> | <a href="docs/screenshots/2-riot-client-v142-settings.png"><img src="docs/screenshots/2-riot-client-v142-settings.png" width="280" alt="Riot Client settings showing version 142.0.1.5150"></a> | <a href="docs/screenshots/3-legends-of-runeterra-running.png"><img src="docs/screenshots/3-legends-of-runeterra-running.png" width="280" alt="Legends of Runeterra main menu"></a> |
+| <a href="docs/screenshots/1-riot-client-v142.png"><img src="docs/screenshots/1-riot-client-v142.png" width="280" alt="Riot Client v142 running on Linux with GE-Proton9-27-LoR1"></a> | <a href="docs/screenshots/2-riot-client-v142-settings.png"><img src="docs/screenshots/2-riot-client-v142-settings.png" width="280" alt="Riot Client settings showing version 142.0.1.5150 on Linux"></a> | <a href="docs/screenshots/3-legends-of-runeterra-running.png"><img src="docs/screenshots/3-legends-of-runeterra-running.png" width="280" alt="Legends of Runeterra main menu running on Linux"></a> |
 
 ## Install
 
-### 1. Download and verify
+1. Download `GE-Proton9-27-LoR1.tar.gz` and `GE-Proton9-27-LoR1.sha512sum` from the [latest release](../../releases/latest) and verify them:
 
-Download both files from the [latest release](../../releases/latest) into `~/Downloads`, then:
+   ```bash
+   cd ~/Downloads && sha512sum -c GE-Proton9-27-LoR1.sha512sum
+   ```
 
-```bash
-cd ~/Downloads
-sha512sum -c GE-Proton9-27-LoR1.sha512sum
-```
+2. Extract the archive into your launcher's Proton folder and restart the launcher:
 
-It must print `GE-Proton9-27-LoR1.tar.gz: OK`.
+   ```bash
+   tar -xzf ~/Downloads/GE-Proton9-27-LoR1.tar.gz -C <folder>
+   ```
 
-### 2. Extract it where your launcher looks for Proton
+   | Launcher | Folder |
+   |---|---|
+   | Bottles (Flatpak) | `~/.var/app/com.usebottles.bottles/data/bottles/runners/` |
+   | Heroic (Flatpak) | `~/.var/app/com.heroicgameslauncher.hgl/config/heroic/tools/proton/` |
+   | Heroic (native) | `~/.config/heroic/tools/proton/` |
+   | Steam (native); Lutris looks here too (untested) | `~/.steam/root/compatibilitytools.d/` |
+   | Steam (Flatpak) | `~/.var/app/com.valvesoftware.Steam/data/Steam/compatibilitytools.d/` |
 
-| Launcher | Folder |
-|---|---|
-| Bottles (Flatpak) | `~/.var/app/com.usebottles.bottles/data/bottles/runners/` |
-| Heroic (Flatpak) | `~/.var/app/com.heroicgameslauncher.hgl/config/heroic/tools/proton/` |
-| Heroic (native) | `~/.config/heroic/tools/proton/` |
-| Lutris | `~/.local/share/Steam/compatibilitytools.d/` (where recent Lutris versions look for Proton builds; untested) |
-| Steam (native) | `~/.steam/root/compatibilitytools.d/` |
-| Steam (Flatpak) | `~/.var/app/com.valvesoftware.Steam/data/Steam/compatibilitytools.d/` |
-| umu-run | anywhere, e.g. `~/.local/share/proton/` |
+3. Select `GE-Proton9-27-LoR1` as the Proton / Wine version for Legends of Runeterra (see below).
 
-```bash
-mkdir -p <folder>
-tar -xzf ~/Downloads/GE-Proton9-27-LoR1.tar.gz -C <folder>
-```
+**Which executable to start:** `C:\Riot Games\Riot Client\RiotClientServices.exe` with the arguments `--launch-product=bacon --launch-patchline=live` (Riot's own LoR shortcut; `bacon` is LoR's internal name). Starting `C:\Riot Games\LoR\live\Game\LoR.exe` directly works in Bottles, but in Heroic the game then reports a broken installation and closes.
 
-This creates `<folder>/GE-Proton9-27-LoR1`. Restart the launcher afterwards so it picks the new version up. Bottles 67 also lists Proton builds from Steam's `compatibilitytools.d`, so one copy there can serve both.
+For a new install you also need the official `Legends_Of_Runeterra_Installer.exe` from playruneterra.com.
 
-### 3. Select it for Legends of Runeterra
+## Launcher steps
 
-You need the official installer, `Legends_Of_Runeterra_Installer.exe`, from playruneterra.com. Inside the prefix the game ends up at `C:\Riot Games\LoR\live\Game\LoR.exe`.
+**Bottles 67** – existing game: **Library** → **⋮** → **Game Settings** → **Proton** → **Choose Proton** → `GE-Proton9-27-LoR1` → **Save**. New game: **Library** → **+** → **Add a Windows Game** → **Run an Installer**, choose the installer and `GE-Proton9-27-LoR1` as Proton, install, close the Riot Client, then pick the executable inside the prefix.
 
-#### Bottles 67 (tested)
+**Heroic** – **Add Game** → platform **Windows** → **Wine Version** `GE-Proton9-27-LoR1` → **Run installer first** with the installer. Then set the executable to `drive_c/Riot Games/Riot Client/RiotClientServices.exe` inside the game's prefix and add the arguments above in the game settings. For an existing entry, just change **Wine Version** and the executable.
 
-Already installed LoR as a library game:
+**Lutris** – **Add locally installed game**, runner **Wine**, **Wine version** `GE-Proton9-27-LoR1`, a new Wine prefix. Run the installer as the executable once, then change the executable to `RiotClientServices.exe` with the arguments above.
 
-1. Open **Library**, click **⋮** (More Actions) on the Legends of Runeterra card, then **Game Settings**.
-2. Under **Proton**, click **Choose Proton** and pick `GE-Proton9-27-LoR1`.
-3. Click **Save** and launch the game.
+**Steam** – **Add a Non-Steam Game** with the installer → **Properties** → **Compatibility** → force `GE-Proton9-27-LoR1` → **Play** to install. Then set **Target** to `RiotClientServices.exe` in `steamapps/compatdata/<id>/pfx/drive_c/Riot Games/Riot Client/` and **Launch options** to the arguments above.
 
-New install:
-
-1. Open **Library**, click **+**: **Add a Windows Game**.
-2. **Action**: **Run an Installer**, **Installer**: `Legends_Of_Runeterra_Installer.exe`.
-3. Under **Compatibility**, **Proton**: **Choose Proton**, pick `GE-Proton9-27-LoR1`.
-4. Click **Install** and go through the Riot installer. When it finishes, close the Riot Client.
-5. Bottles asks for the game executable: choose `drive_c/Riot Games/LoR/live/Game/LoR.exe` inside the game's prefix.
-
-#### Heroic Games Launcher (untested)
-
-1. **Add Game** (in the library), platform **Windows**.
-2. **Wine Version**: `GE-Proton9-27-LoR1`.
-3. Enable **Run installer first** and choose `Legends_Of_Runeterra_Installer.exe`, then go through the Riot installer.
-4. As executable, choose `drive_c/Riot Games/LoR/live/Game/LoR.exe` inside the prefix Heroic created (shown in the game's settings, by default under `~/Games/Heroic/Prefixes/`).
-
-For an existing Heroic entry, open the game's settings and change **Wine Version** to `GE-Proton9-27-LoR1`.
-
-#### Lutris (untested)
-
-1. **+** → **Add locally installed game**, **Runner**: **Wine**.
-2. **Game options**: executable `Legends_Of_Runeterra_Installer.exe` for now, **Wine prefix**: a new folder, e.g. `~/Games/legends-of-runeterra`.
-3. **Runner options**, **Wine version**: `GE-Proton9-27-LoR1`. Save and launch, go through the Riot installer.
-4. Edit the game again and change the executable to `drive_c/Riot Games/LoR/live/Game/LoR.exe` inside that prefix.
-
-#### Steam, as a non-Steam game (untested)
-
-1. **Games** → **Add a Non-Steam Game to My Library**, browse to `Legends_Of_Runeterra_Installer.exe`.
-2. In the shortcut's **Properties** → **Compatibility**, enable **Force the use of a specific Steam Play compatibility tool** and pick `GE-Proton9-27-LoR1`.
-3. Press **Play** to run the Riot installer.
-4. In **Properties** → **Shortcut**, change **Target** to `LoR.exe` inside `steamapps/compatdata/<shortcut id>/pfx/drive_c/Riot Games/LoR/live/Game/` and **Start in** to that folder.
-
-#### umu-run (command line)
+**umu-run**:
 
 ```bash
-export WINEPREFIX="$HOME/Games/legends-of-runeterra"
+export WINEPREFIX="$HOME/Games/legends-of-runeterra" GAMEID=umu-default
 export PROTONPATH="$HOME/.local/share/proton/GE-Proton9-27-LoR1"
-export GAMEID=umu-default
-
 umu-run ~/Downloads/Legends_Of_Runeterra_Installer.exe
-umu-run "$WINEPREFIX/drive_c/Riot Games/LoR/live/Game/LoR.exe"
+umu-run "$WINEPREFIX/drive_c/Riot Games/Riot Client/RiotClientServices.exe" --launch-product=bacon --launch-patchline=live
 ```
 
-The first command installs, the second starts the game.
+On the first start an outdated Riot Client shows a short update splash and restarts itself; that is the update that used to fail. **Settings** shows the client version at the bottom left (`V142.0.1.5150` or newer).
 
-### 4. What to expect on the first start
+## Troubleshooting
 
-- Proton logs `Upgrading prefix from GE-Proton9-27 to GE-Proton9-27-LoR1` and copies the patched DLLs into the prefix. Switching back to GE-Proton9-27 copies the originals back.
-- If your Riot Client is outdated, it shows a short update splash, updates itself and restarts. That is the part that used to fail with "Couldn't update".
-- The Riot Client window opens. Its version is shown at the bottom left of **Settings** (`V142.0.1.5150` or newer).
+- **Still "Couldn't update":** if you used the older v141 workaround, delete `drive_c/ProgramData/Riot Games/Metadata/Riot Client/Riot Client.ok` so the client updates itself.
+- **"Something is wrong with the installation" and the game closes:** start `RiotClientServices.exe` with the arguments above instead of `LoR.exe`.
+- **Game in English:** reinstalling resets the language. Riot Client → profile icon → **Settings** → **Legends of Runeterra** → **Game text language**.
+- **A newer Riot Client breaks again:** `tools/check-imports.py` lists the Windows functions it needs that the runner lacks; please open an issue with its output.
 
-**Still stuck on "Couldn't update"?** If you used the older workaround that keeps Riot Client v141, it wrote the newest release ID into `Riot Client.ok`. Delete `drive_c/ProgramData/Riot Games/Metadata/Riot Client/Riot Client.ok` so the launcher updates itself.
+## How it works
 
-**Game in English?** Running the Riot installer again resets the game language to English. Change it in the Riot Client: profile icon → **Settings** → **Legends of Runeterra** → **Game text language**.
-
-## The problems it fixes
-
-### 1. "Couldn't update" on every Riot Client release
-
-The Riot Client updates itself every few weeks. Under Wine the update always failed:
-
-```
-ERROR| Update failed: Failed getting path to current executable: File path could not be found in a mapped drive: \??\C:\Riot Games\Riot Client\RiotClientServices.exe
-```
-
-Windows returns mapped file names as `\Device\HarddiskVolumeN\...`, which the updater matches against `QueryDosDevice`. Wine returns `\??\C:\...`, so the match fails ([Wine bug 51687](https://bugs.winehq.org/show_bug.cgi?id=51687), open since 2021). The failed attempt also deletes `Riot Client.ok`, so the error comes back on every launch until you reinstall.
-
-### 2. Riot Client v142 shows no window
-
-Riot Client v142 (release `626519AF431D7214`, about 2026-10-26) moved from Electron 22 to Electron 43 (Chromium 150). Its window crashes on start with exit code `2147483651`; the crash dump says `DelayLoad-ModuleName = USER32.dll`, `DelayLoad-LastError = 127`. The new client loads functions that the Wine in GE-Proton 9-27 does not have. A fresh install gets the same client, so reinstalling no longer helps.
-
-## What the patches change
-
-| Patch | DLL | Change |
-|---|---|---|
-| `0001` | `user32` | Adds `GetPointerDevice`, `GetPointerPenInfo` (pen and touch input) and `IsWindowArranged` (window snapping state). They report "not available" / "not arranged". |
-| `0002` | `uiautomationcore` | Adds `UiaDisconnectAllProviders` (accessibility clean-up), which reports success. |
-| `0003` | `combase`, `ole32` | Replaces the crashing `RoGetAgileReference` stub with one that returns `E_NOTIMPL`, and exports it from `ole32` too. |
-| `0004` | `kernelbase` | `GetMappedFileNameW` returns `\Device\HarddiskVolumeN\...` like Windows does. Fixes problem 1. |
-
-Only these five DLLs are rebuilt, from the exact Wine source of GE-Proton 9-27 with all of GE's patches applied. Every other file of the runner is the original GE-Proton 9-27.
+The Riot Client's self-update fails under Wine ([Wine bug 51687](https://bugs.winehq.org/show_bug.cgi?id=51687)), and Riot Client v142 (Electron 43) needs five Windows functions that Wine 9 lacks. The patches fix the update path in `kernelbase` and add the missing functions to `user32`, `uiautomationcore`, `combase` and `ole32`; everything else is untouched GE-Proton 9-27, which keeps LoR itself working. Details, patch list and the import checker: [docs/how-it-works.md](docs/how-it-works.md).
 
 ## Build from source
 
-Requirements: Docker, git, curl, about 4 GB of free disk space and a network connection. Nothing is installed on the host; compiling happens in a Debian container with the MinGW cross compiler.
+Needs Docker, git, curl and about 4 GB of disk; nothing is installed on the host.
 
 ```bash
-./build.sh                                   # downloads GE-Proton9-27 and verifies its checksum
-./build.sh --base /path/to/GE-Proton9-27     # or reuses an existing GE-Proton9-27 folder
+./build.sh                                 # downloads GE-Proton9-27 and verifies it
+./build.sh --base /path/to/GE-Proton9-27   # or reuses an existing copy
 ```
 
-Results land in `dist/`: the runner folder, `GE-Proton9-27-LoR1.tar.gz` and its `.sha512sum`. Logs are in `build/prepare.log` and `build/build-dlls.log`.
+The runner and its archive land in `dist/`, logs in `build/`.
 
-The steps:
+## Credits and license
 
-1. `scripts/prepare-wine.sh` clones `proton-ge-custom` at tag `GE-Proton9-27`, fetches its `wine` and `wine-staging` submodules, runs the Wine part of GE's `patches/protonprep-valve-staging.sh` unchanged, then applies `patches/*.patch`.
-2. `scripts/build-dlls.sh` regenerates Wine's build files the way GE's build does, configures a 64-bit MinGW build and compiles only the five DLLs.
-3. `build.sh` copies GE-Proton9-27, replaces the five DLLs in `files/lib64/wine/x86_64-windows`, renames the runner (`CURRENT_PREFIX_VERSION`, `version`, `compatibilitytool.vdf`) and packs it.
+Built on [GE-Proton](https://github.com/GloriousEggroll/proton-ge-custom) by GloriousEggroll, [Proton](https://github.com/ValveSoftware/Proton) by Valve, [Wine](https://www.winehq.org/) and [wine-staging](https://gitlab.winehq.org/wine/wine-staging). Thanks to Matías Zúñiga for tracking down Wine bug 51687 in 2021.
 
-GE's own patch for Vanguard: Saga of Heroes passes a wide string to `GetEnvironmentVariableA`. GE's older compiler only warned about it; GCC 14 treats it as an error, so the build turns `incompatible-pointer-types`, `int-conversion` and `implicit-function-declaration` back into warnings. The affected code is compiled the same way as in GE's release.
-
-## When Riot ships the next client
-
-`tools/check-imports.py` lists every function the Riot Client loads that a runner does not provide:
-
-```bash
-tools/check-imports.py "<prefix>/drive_c/Riot Games/Riot Client" /path/to/GE-Proton9-27-LoR1
-```
-
-Output for client 142.0.1.5150 on this runner:
-
-```
-riot client.exe     delay  ADVAPI32.dll       AddConditionalAce
-riot client.exe     delay  USERENV.dll        DeriveAppContainerSidFromAppContainerName
-riotgamesapi.dll    delay  ACLSDK.dll         <whole DLL missing>
-riotgamesapi.dll    delay  GCloudVoice.dll    <whole DLL missing>
-```
-
-These four are also missing in GE-Proton 11, where the client works, so they are never called (Chromium sandbox functions and China-only voice SDKs). Anything new in that list is a candidate for the next patch. A `delay` import only crashes when it is first called; a missing normal `import` stops the program from starting at all.
-
-## Fallback without this runner
-
-`scripts/lor-fix-client` keeps an old Riot Client v141 (Electron 22) and marks it as the newest release so the launcher skips updating. It needs a backup of a v141 install and stops working once Riot's servers reject v141. It is configured with the environment variables `LOR_PREFIX`, `LOR_CLIENT_BACKUP` and `LOR_WINE_USER`; [docs/riot-client-v141-workaround.md](docs/riot-client-v141-workaround.md) explains how to make the backup and use it.
-
-## Limits
-
-- The added functions are placeholders. If a future Riot Client actually depends on pen input, window snapping information or agile references, it needs real implementations.
-- LoR itself crashed on GE-Proton 11-11 in a single test. Other Proton 10.x and 11.x builds were not tested.
-- Riot can change the client again at any time; `tools/check-imports.py` shows quickly whether a runner still covers it.
-
-## Credits
-
-- [GloriousEggroll](https://github.com/GloriousEggroll/proton-ge-custom) for GE-Proton, [Valve](https://github.com/ValveSoftware/Proton) for Proton, the [Wine](https://www.winehq.org/) and [wine-staging](https://gitlab.winehq.org/wine/wine-staging) projects.
-- Matías Zúñiga for tracking down Wine bug 51687 in 2021.
-
-## License
-
-The patches in `patches/` modify Wine and are licensed under the GNU LGPL 2.1 or later, like Wine itself. The released runner is GE-Proton 9-27 with five rebuilt DLLs; its source is GE-Proton 9-27 (`proton-ge-custom` tag `GE-Proton9-27`) plus the patches in this repository.
+The patches modify Wine and, like Wine, are licensed under the GNU LGPL 2.1 or later. The released runner is GE-Proton 9-27 (`proton-ge-custom` tag `GE-Proton9-27`) plus the patches in this repository.
