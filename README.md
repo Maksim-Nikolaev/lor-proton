@@ -4,11 +4,11 @@
 
 **[Download the latest release](../../releases/latest)** – unofficial, not affiliated with Riot Games, GloriousEggroll or Valve.
 
-| Launcher | Status |
-|---|---|
-| Bottles 67 (Flatpak) | tested |
-| Heroic Games Launcher (Flatpak) | tested by users |
-| Lutris, Steam, umu-run | untested, reports welcome |
+| Launcher                        | Status                    |
+| ------------------------------- | ------------------------- |
+| Bottles 67 (Flatpak)            | tested                    |
+| Heroic Games Launcher (Flatpak) | tested                    |
+| Lutris, Steam, umu-run          | untested, reports welcome |
 
 ## Contents
 
@@ -22,31 +22,31 @@
 
 ## Screenshots
 
-| Riot Client v142 | Client settings (v142.0.1.5150) | Legends of Runeterra |
-|---|---|---|
+| Riot Client v142                                                                                                                                                                      | Client settings (v142.0.1.5150)                                                                                                                                                                          | Legends of Runeterra                                                                                                                                                                                |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | <a href="docs/screenshots/1-riot-client-v142.png"><img src="docs/screenshots/1-riot-client-v142.png" width="280" alt="Riot Client v142 running on Linux with GE-Proton9-27-LoR1"></a> | <a href="docs/screenshots/2-riot-client-v142-settings.png"><img src="docs/screenshots/2-riot-client-v142-settings.png" width="280" alt="Riot Client settings showing version 142.0.1.5150 on Linux"></a> | <a href="docs/screenshots/3-legends-of-runeterra-running.png"><img src="docs/screenshots/3-legends-of-runeterra-running.png" width="280" alt="Legends of Runeterra main menu running on Linux"></a> |
 
 ## Install
 
 1. Download `GE-Proton9-27-LoR1.tar.gz` and `GE-Proton9-27-LoR1.sha512sum` from the [latest release](../../releases/latest) and verify them:
-
+   
    ```bash
    cd ~/Downloads && sha512sum -c GE-Proton9-27-LoR1.sha512sum
    ```
 
 2. Extract the archive into your launcher's Proton folder and restart the launcher:
-
+   
    ```bash
    tar -xzf ~/Downloads/GE-Proton9-27-LoR1.tar.gz -C <folder>
    ```
-
-   | Launcher | Folder |
-   |---|---|
-   | Bottles (Flatpak) | `~/.var/app/com.usebottles.bottles/data/bottles/runners/` |
-   | Heroic (Flatpak) | `~/.var/app/com.heroicgameslauncher.hgl/config/heroic/tools/proton/` |
-   | Heroic (native) | `~/.config/heroic/tools/proton/` |
-   | Steam (native); Lutris looks here too (untested) | `~/.steam/root/compatibilitytools.d/` |
-   | Steam (Flatpak) | `~/.var/app/com.valvesoftware.Steam/data/Steam/compatibilitytools.d/` |
+   
+   | Launcher                                         | Folder                                                                |
+   | ------------------------------------------------ | --------------------------------------------------------------------- |
+   | Bottles (Flatpak)                                | `~/.var/app/com.usebottles.bottles/data/bottles/runners/`             |
+   | Heroic (Flatpak)                                 | `~/.var/app/com.heroicgameslauncher.hgl/config/heroic/tools/proton/`  |
+   | Heroic (native)                                  | `~/.config/heroic/tools/proton/`                                      |
+   | Steam (native); Lutris looks here too (untested) | `~/.steam/root/compatibilitytools.d/`                                 |
+   | Steam (Flatpak)                                  | `~/.var/app/com.valvesoftware.Steam/data/Steam/compatibilitytools.d/` |
 
 3. Select `GE-Proton9-27-LoR1` as the Proton / Wine version for Legends of Runeterra (see below).
 
